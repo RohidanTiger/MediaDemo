@@ -9,39 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ht.qtstudio.base.BuildConfig
 import ht.qtstudio.base.R
-import com.google.gson.Gson
 import java.io.IOException
 
 fun Exception.safeLog() {
     if (BuildConfig.DEBUG) printStackTrace()
-}
-
-fun RecyclerView.setUpRecyclerView() {
-    this.setUpRecyclerView(true)
-}
-
-fun RecyclerView.setUpRecyclerView(
-    isDecoration: Boolean,
-    orientation: Int = RecyclerView.VERTICAL
-) {
-    this.apply {
-        layoutManager = LinearLayoutManager(this.context, orientation, false).apply {
-            isSmoothScrollbarEnabled = true
-            isAutoMeasureEnabled = true
-        }
-        setHasFixedSize(true)
-        isNestedScrollingEnabled = false
-        if (isDecoration) {
-            val divider =
-                DividerItemDecoration(
-                    this.context,
-                    (layoutManager as LinearLayoutManager).orientation
-                ).apply {
-                    context.getDrawable(R.drawable.divider)?.let { setDrawable(it) }
-                }
-            this.addItemDecoration(divider)
-        }
-    }
 }
 
 fun RecyclerView.setUpRecyclerView(decoration: Drawable?) {
@@ -62,25 +33,6 @@ fun RecyclerView.setUpRecyclerView(decoration: Drawable?) {
                 })
         }
     }
-}
-
-inline fun <reified T> getObjectFromJsonFile(assets: AssetManager, fileName: String): T? {
-    var json: String? = null
-    try {
-        val inputStream = assets.open(fileName)
-        val size = inputStream.available()
-        val buffer = ByteArray(size)
-        inputStream.read(buffer)
-        inputStream.close()
-        json = String(buffer, Charsets.UTF_8)
-    } catch (e: IOException) {
-        e.printStackTrace()
-    }
-
-    return json?.let {
-        Gson().fromJson(json, T::class.java)
-    }
-
 }
 
 fun getJsonStringFromFile(assets: AssetManager, fileName: String): String {

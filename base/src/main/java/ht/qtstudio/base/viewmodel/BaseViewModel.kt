@@ -1,5 +1,8 @@
 package ht.qtstudio.base.viewmodel
 
-class BaseViewModel {
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+
+class BaseViewModel: ViewModel() {
 
 }

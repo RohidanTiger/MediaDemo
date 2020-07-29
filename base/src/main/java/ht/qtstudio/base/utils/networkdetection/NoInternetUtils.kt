@@ -8,7 +8,6 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
-import ht.qtstudio.base.data.remote.response.HttpResponseCode
 import ht.qtstudio.base.utils.Constants
 import java.io.IOException
 import java.net.HttpURLConnection

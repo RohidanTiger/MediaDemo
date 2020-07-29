@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.telephony.TelephonyManager
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.LiveData
 
@@ -25,7 +26,8 @@ class NetworkDetection internal constructor(
         application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     )
 
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+    private val networkCallback = @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    object : ConnectivityManager.NetworkCallback() {
         val networkInfoSubtype = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             telephonyManager.networkType
         } else {
@@ -53,6 +55,7 @@ class NetworkDetection internal constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onActive() {
         super.onActive()
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -94,6 +97,7 @@ class NetworkDetection internal constructor(
         postValue(connectionState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun registerNetworkCallback() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             connectivityManager.registerDefaultNetworkCallback(networkCallback)
@@ -126,6 +130,7 @@ class NetworkDetection internal constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onInactive() {
         super.onInactive()
         connectivityManager.unregisterNetworkCallback(networkCallback)
